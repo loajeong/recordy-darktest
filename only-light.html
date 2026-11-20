@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="only light">
+<title>Recordy 다크 모드 진단 B</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:wght@900&family=Noto+Sans+KR:wght@500;700&family=Nunito:wght@800;900&display=swap">
+<style>
+:root{color-scheme:only light}
+body{margin:0;padding:16px;font:15px/1.5 -apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Malgun Gothic",sans-serif;background:#FDFAEE;color:#22282E}
+
+h1{font-size:19px;margin:0 0 4px}
+p.lead{margin:0 0 12px;font-size:13.5px}
+.tabs{display:flex;gap:6px;margin:0 0 12px}
+.tabs a{flex:1;text-align:center;padding:8px 4px;border-radius:10px;font-size:13px;font-weight:700;text-decoration:none;color:inherit;border:1.5px solid currentColor;opacity:.55}
+.tabs a.on{opacity:1;background:#F5ECC2;color:#22282E;border-color:#22282E}
+.info{font:12px/1.5 ui-monospace,Menlo,monospace;background:#F5ECC2;color:#22282E;border-radius:8px;padding:8px 10px;margin-bottom:14px;word-break:break-all}
+.row{display:grid;grid-template-columns:28px repeat(3,1fr);gap:6px;align-items:center;margin-bottom:8px}
+.row b{font-size:15px;text-align:center}
+.cap{font-size:12.5px;margin:12px 0 4px 34px;opacity:.75}
+.sw{height:56px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:15px}
+.sw svg,.sw canvas,.sw img{width:100%;height:56px;display:block;border-radius:8px}
+.hd{display:grid;grid-template-columns:28px repeat(3,1fr);gap:6px;font-size:12px;font-weight:700;text-align:center;margin-bottom:4px}
+.big{display:grid;grid-template-columns:28px 1fr;gap:6px;align-items:start;margin-bottom:8px}
+.big b{font-size:15px;text-align:center;padding-top:6px}
+.big .box{border-radius:14px;overflow:hidden}
+.big canvas{width:100%;display:block}
+.note{font-size:12px;opacity:.7;margin:2px 0 0 34px}
+hr{border:0;border-top:1px dashed currentColor;opacity:.3;margin:18px 0}
+</style>
+</head>
+<body>
+<h1>Recordy 다크 모드 진단</h1>
+<div class="tabs">
+  <a href="./" class="">A 밝음·어둠</a>
+  <a href="./only-light.html" class="on">B 밝음 고정</a>
+  <a href="./none.html" class="">C 선언 없음</a>
+</div>
+<p class="lead">B: 페이지가 "밝은 화면만 써요, 바꾸지 마세요"라고 알려요.<br>갤럭시 <b>다크 모드</b>에서 A·B·C 세 페이지를 각각 끝까지 캡처해 주세요. 아이폰은 다크 모드에서 A만 캡처하면 돼요.</p>
+<div class="info" id="info">확인 중…</div>
+
+<div class="hd"><span></span><span>아이보리 #F5ECC2<br>+ 짙은 글자</span><span>연하늘 #A7D4E4<br>+ 짙은 글자</span><span>진보라 #501345<br>+ 흰 글자</span></div>
+
+<p class="cap">① 일반 HTML 배경색</p>
+<div class="row"><b>①</b>
+  <div class="sw" style="background:#F5ECC2;color:#22282E">가나다</div>
+  <div class="sw" style="background:#A7D4E4;color:#22282E">가나다</div>
+  <div class="sw" style="background:#501345;color:#FFFFFF">가나다</div>
+</div>
+
+<p class="cap">② SVG 그림 (지금 달력 디자인 6종이 쓰는 방식)</p>
+<div class="row"><b>②</b>
+  <div class="sw"><svg viewBox="0 0 100 56"><rect width="100" height="56" rx="8" fill="#F5ECC2"/><text x="50" y="35" text-anchor="middle" font-size="15" font-weight="800" fill="#22282E">가나다</text></svg></div>
+  <div class="sw"><svg viewBox="0 0 100 56"><rect width="100" height="56" rx="8" fill="#A7D4E4"/><text x="50" y="35" text-anchor="middle" font-size="15" font-weight="800" fill="#22282E">가나다</text></svg></div>
+  <div class="sw"><svg viewBox="0 0 100 56"><rect width="100" height="56" rx="8" fill="#501345"/><text x="50" y="35" text-anchor="middle" font-size="15" font-weight="800" fill="#FFFFFF">가나다</text></svg></div>
+</div>
+
+<p class="cap">③ 캔버스에 직접 그린 그림</p>
+<div class="row"><b>③</b>
+  <div class="sw"><canvas data-bg="#F5ECC2" data-fg="#22282E"></canvas></div>
+  <div class="sw"><canvas data-bg="#A7D4E4" data-fg="#22282E"></canvas></div>
+  <div class="sw"><canvas data-bg="#501345" data-fg="#FFFFFF"></canvas></div>
+</div>
+
+<p class="cap">④ 이미지(PNG)로 바꾼 그림</p>
+<div class="row"><b>④</b>
+  <div class="sw"><img alt="" data-bg="#F5ECC2" data-fg="#22282E"></div>
+  <div class="sw"><img alt="" data-bg="#A7D4E4" data-fg="#22282E"></div>
+  <div class="sw"><img alt="" data-bg="#501345" data-fg="#FFFFFF"></div>
+</div>
+
+<p class="cap">⑤ SVG를 이미지로 넣은 그림</p>
+<div class="row"><b>⑤</b>
+  <div class="sw"><img alt="" data-svg="1" data-bg="#F5ECC2" data-fg="#22282E"></div>
+  <div class="sw"><img alt="" data-svg="1" data-bg="#A7D4E4" data-fg="#22282E"></div>
+  <div class="sw"><img alt="" data-svg="1" data-bg="#501345" data-fg="#FFFFFF"></div>
+</div>
+
+<p class="cap">⑥ SVG를 캔버스에 옮겨 그린 그림 (셋째 겹 방식)</p>
+<div class="row"><b>⑥</b>
+  <div class="sw"><canvas data-svg2c="1" data-bg="#F5ECC2" data-fg="#22282E"></canvas></div>
+  <div class="sw"><canvas data-svg2c="1" data-bg="#A7D4E4" data-fg="#22282E"></canvas></div>
+  <div class="sw"><canvas data-svg2c="1" data-bg="#501345" data-fg="#FFFFFF"></canvas></div>
+</div>
+
+<div class="hd" style="margin-top:14px"><span></span><span>다크 배경 #101A20<br>+ 밝은 글자</span><span>다크 청록 #31586A<br>+ 밝은 글자</span><span>다크 자주 #1B131A<br>+ 밝은 글자</span></div>
+<p class="cap">⑦ 다크 디자인 색 견본 (HTML)</p>
+<div class="row"><b>⑦</b>
+  <div class="sw" style="background:#101A20;color:#F4F1E8">가나다</div>
+  <div class="sw" style="background:#31586A;color:#F4F1E8">가나다</div>
+  <div class="sw" style="background:#1B131A;color:#F8EFF5">가나다</div>
+</div>
+<p class="cap">⑧ 다크 디자인 색 견본 (SVG)</p>
+<div class="row"><b>⑧</b>
+  <div class="sw"><svg viewBox="0 0 100 56"><rect width="100" height="56" rx="8" fill="#101A20"/><text x="50" y="35" text-anchor="middle" font-size="15" font-weight="800" fill="#F4F1E8">가나다</text></svg></div>
+  <div class="sw"><svg viewBox="0 0 100 56"><rect width="100" height="56" rx="8" fill="#31586A"/><text x="50" y="35" text-anchor="middle" font-size="15" font-weight="800" fill="#F4F1E8">가나다</text></svg></div>
+  <div class="sw"><svg viewBox="0 0 100 56"><rect width="100" height="56" rx="8" fill="#1B131A"/><text x="50" y="35" text-anchor="middle" font-size="15" font-weight="800" fill="#F8EFF5">가나다</text></svg></div>
+</div>
+
+<hr>
+<p class="cap" style="margin-top:0">⑨ 실제 다이얼 · 지금 방식(SVG) · 밝은 배색</p>
+<div class="big"><b>⑨</b><div class="box" id="dialSvg"></div></div>
+
+<p class="cap">⑩ 같은 다이얼을 캔버스로 옮겨 그린 것 · 밝은 배색</p>
+<div class="big"><b>⑩</b><div class="box"><canvas id="dialCanvas"></canvas></div></div>
+<p class="note">캔버스 판은 시험용이라 글꼴이 기본 글꼴로 나와요. 실제로 적용할 때는 글꼴도 함께 넣어요.</p>
+
+<p class="cap">⑪ 실제 다이얼 · SVG · 동료가 제안한 다크 배색 (검수 전)</p>
+<div class="big"><b>⑪</b><div class="box" id="dialDark"></div></div>
+
+<script>
+window.RecordyLayout = {
+  id: "dial",
+  name: "먼스 다이얼",
+
+  fonts: [
+    "https://fonts.googleapis.com/css2?family=Fraunces:wght@900&family=Noto+Sans+KR:wght@500;700&family=Nunito:wght@800;900&display=swap"
+  ],
+
+  css: (() => {
+    const roles = [
+      "paper", "petal", "ink", "muted",
+      "primary", "secondary", "line", "selected", "weekend",
+      "pill-a", "pill-b", "sprout", "spark", "spark-a",
+      "primary-ink", "pill-b-ink", "selected-pill", "selected-ink", "pill-a-ink"
+    ];
+
+    const palettes = {
+      v02: {
+        light: [
+          "#FEFEFE", "#FDFDFD", "#222228", "#6E6A5A",
+          "#98D3E7", "#F6E9BA", "#72C5E5", "#84C9E1", "#2999C6",
+          "#F5E9BD", "#97D2E8", "#F6E4AA", "#2999C6", "#2999C6",
+          "#222228", "#222228", "#F5E9BD", "#FFFFFF", "#222228"
+        ],
+        dark: [
+          "#101A20", "#19272F", "#F4F1E8", "#B8C6CA",
+          "#31586A", "#554B32", "#689FB2", "#356D84", "#96D9ED",
+          "#F1DFAC", "#A1D2E2", "#E2C687", "#8DCCDF", "#8DCCDF",
+          "#F4F1E8", "#17252D", "#F1DFAC", "#FFFFFF", "#17252D"
+        ]
+      },
+      lime: {
+        light: [
+          "#FEFEFE", "#FDFDFD", "#222228", "#6E6A5A",
+          "#691646", "#C4CE4B", "#691646", "#681546", "#691646",
+          "#C2CE4A", "#651444", "#C2CB46", "#691646", "#691646",
+          "#FDFDFD", "#FDFDFD", "#C2CE4A", "#FFFFFF", "#222228"
+        ],
+        dark: [
+          "#1B131A", "#291D28", "#F8EFF5", "#C8B7C4",
+          "#762A58", "#52562B", "#A96891", "#84335F", "#E8A3CD",
+          "#C6D35A", "#792F5D", "#C8D65B", "#DB9BBF", "#DB9BBF",
+          "#FCF4F9", "#FCF4F9", "#C6D35A", "#FFFFFF", "#25281A"
+        ]
+      },
+      sage: {
+        light: [
+          "#FEFEFE", "#FDFDFD", "#222228", "#6E6A5A",
+          "#E2ACB0", "#799B71", "#E69FA7", "#E1AAAD", "#D35971",
+          "#90AF89", "#E1ADAE", "#74956E", "#D35971", "#222228",
+          "#222228", "#222228", "#FDFDFD", "#FFFFFF", "#222228"
+        ],
+        dark: [
+          "#20191C", "#2D2428", "#FAF0F1", "#C8B9BC",
+          "#69464F", "#405440", "#AD7885", "#86515F", "#F0A0B0",
+          "#A5BFA0", "#DFB0B8", "#A2C599", "#EB9FB0", "#ECE0E4",
+          "#FAF0F1", "#2B2025", "#F8ECF0", "#FFFFFF", "#202A21"
+        ]
+      },
+      jade: {
+        light: [
+          "#FEFEFE", "#FDFDFD", "#222228", "#6E6A5A",
+          "#B3B0D6", "#009F90", "#A8A4D1", "#AAA7D1", "#928DBF",
+          "#0BBBA7", "#B0AFD6", "#05998D", "#928DBF", "#05998D",
+          "#222228", "#222228", "#FDFDFD", "#FFFFFF", "#222228"
+        ],
+        dark: [
+          "#171820", "#232532", "#F2F1FB", "#C0BDCF",
+          "#4C4969", "#245852", "#8986AD", "#625D88", "#BDB8EB",
+          "#66C9B9", "#B9B5DC", "#60C7B8", "#B5B0DA", "#60C7B8",
+          "#F2F1FB", "#252335", "#F0EDFA", "#FFFFFF", "#172B29"
+        ]
+      },
+      coral: {
+        light: [
+          "#FEFEFE", "#FDFDFD", "#222228", "#6E6A5A",
+          "#051630", "#F37F60", "#051630", "#051630", "#BD5036",
+          "#F18163", "#051630", "#F47357", "#051630", "#051630",
+          "#FDFDFD", "#FDFDFD", "#F18163", "#FFFFFF", "#051630"
+        ],
+        dark: [
+          "#101622", "#1B2534", "#F5F1EF", "#BDC3CB",
+          "#253C5B", "#754737", "#65809F", "#304D70", "#F39879",
+          "#F39879", "#253C5B", "#F58F70", "#A7C0DB", "#A7C0DB",
+          "#F5F1EF", "#F5F1EF", "#F39879", "#FFFFFF", "#101B2C"
+        ]
+      }
+    };
+
+    const rules = [];
+    for (const [name, modes] of Object.entries(palettes)) {
+      for (const [mode, colors] of Object.entries(modes)) {
+        const declarations = roles.map((role, i) => `--rd-${role}:${colors[i]};`);
+        rules.push(`.rd-dial[data-dial-palette="${name}"][data-dial-mode="${mode}"] {
+          ${declarations.join("\n")}
+        }`);
+      }
+    }
+
+    return rules.join("\n") + `
+      .rd-dial {
+        width:100%; max-width:760px; margin-inline:auto;
+        background:var(--rd-paper); color:var(--rd-ink);
+        font-family:Nunito,"Noto Sans KR",sans-serif;
+      }
+      .rd-dial svg { display:block; width:100%; height:auto; fill:var(--rd-ink); }
+      .rd-dial text { text-anchor:middle; }
+      .rd-dial [data-day] { cursor:pointer; }
+      .rd-dial.rd-nav { position:relative; aspect-ratio:1086/109; container-type:inline-size; }
+      .rd-dial.rd-nav button {
+        position:absolute; border:0; padding:0; background:none;
+        color:var(--rd-ink); cursor:pointer; font:inherit;
+      }
+      .rd-dial.rd-nav .arrow {
+        top:18%; width:6.45%; aspect-ratio:1; border-radius:50%;
+        background:var(--rd-primary); display:grid; place-items:center;
+      }
+      .rd-dial.rd-nav .prev { left:26.6%; }
+      .rd-dial.rd-nav .next { right:26.6%; }
+      .rd-dial.rd-nav .arrow svg {
+        width:42%; fill:none; stroke:var(--rd-primary-ink);
+        stroke-width:3.4; stroke-linecap:round; stroke-linejoin:round;
+      }
+      .rd-dial.rd-nav .year {
+        left:50%; top:49%; transform:translate(-50%,-50%);
+        font:900 6.1cqw/1 Nunito,sans-serif; white-space:pre;
+      }
+      .rd-dial.rd-nav .rays {
+        position:absolute; width:16%; right:-14%; top:-25%;
+        fill:none; stroke:var(--rd-sprout); stroke-width:4; stroke-linecap:round;
+      }
+      .rd-dial.rd-nav .caret {
+        position:absolute; left:102%; bottom:4%;
+        font:700 1.45cqw/1 sans-serif; color:var(--rd-muted);
+      }
+      .rd-dial.rd-nav .now {
+        right:13%; top:50%; transform:translateY(-50%);
+        font:700 clamp(10px,1.7cqw,13px)/1.5 "Noto Sans KR",sans-serif;
+        color:var(--rd-muted);
+      }
+      .rd-dial .date { font:900 36px Nunito,sans-serif; }
+      .rd-dial .weekday { font:500 22px "Noto Sans KR",sans-serif; }
+      .rd-dial .tag { font:700 25px "Noto Sans KR",sans-serif; }
+      .rd-dial .week { font-family:"Noto Sans KR",sans-serif; font-weight:700; }
+      .rd-dial .month { font:900 102px Fraunces,Georgia,serif; }
+      .rd-dial .count { font:25px Georgia,serif; letter-spacing:4px; }
+    `;
+  })(),
+
+  renderNav(M) {
+    const esc = value => M.esc(String(value));
+    const palette = ["v02", "lime", "sage", "jade", "coral"].includes(M.palette)
+      ? M.palette : "v02";
+    const mode = M.dark === true ? "dark" : "light";
+
+    const arrow = (act, label, path) => `
+      <button type="button" class="arrow ${act}" data-act="${act}" aria-label="${label}">
+        <svg aria-hidden="true" viewBox="0 0 24 24"><path d="${path}"/></svg>
+      </button>`;
+
+    return `<div class="rd-dial rd-nav" data-dial-palette="${esc(palette)}" data-dial-mode="${mode}">
+      ${arrow("prev", "이전 달", "M15 3 7 12 15 21")}
+      <button type="button" class="year" data-act="year"
+        aria-label="${esc(M.year)}년 ${esc(M.month)}월, 연도 선택">${esc(M.year)} ${esc(String(M.month).padStart(2, "0"))}<span class="caret" aria-hidden="true">▾</span><svg class="rays" aria-hidden="true" viewBox="0 0 40 44"><path d="M4 18 9 5 M19 26 35 15 M25 39 38 38"/></svg></button>
+      ${arrow("next", "다음 달", "M9 3 17 12 9 21")}
+      <button type="button" class="now" data-act="today">오늘</button>
+    </div>`;
+  },
+
+  render(M) {
+    const esc = value => M.esc(String(value));
+    const palette = ["v02", "lime", "sage", "jade", "coral"].includes(M.palette)
+      ? M.palette : "v02";
+    const mode = M.dark === true ? "dark" : "light";
+    const coral = palette === "coral";
+    const n = M.daysInMonth;
+    const step = 2 * Math.PI / n;
+
+    const point = (angle, radius) => [
+      543 + radius * Math.sin(angle),
+      530 - radius * Math.cos(angle)
+    ];
+    const xy = (angle, radius) => point(angle, radius).join(" ");
+    const arc = (start, end, radius) =>
+      `M${xy(start, radius)} A${radius} ${radius} 0 0 ${end > start ? 1 : 0} ${xy(end, radius)}`;
+
+    const weeks = [];
+    for (const day of M.days) {
+      if (weeks.length === 0 || day.weekday === 1) {
+        weeks.push({ from: day.d, to: day.d });
+      } else {
+        weeks[weeks.length - 1].to = day.d;
+      }
+    }
+
+    const bands = weeks.map(({ from, to }, i) => {
+      const radius = 503;
+      const start = (from - 1.5) * step;
+      const end = (to - 0.5) * step;
+      const bottom = Math.cos((start + end) / 2) < 0;
+      const gap = 0.052;
+      const primary = i % 2 === 0;
+      const label = `${i + 1}주차 (${from} – ${to}일)`;
+      const room = radius * (end - start) - 16;
+      const font = Math.min(28, room / (M.chars(label).length * 0.73));
+      const baseline = radius + (bottom ? 1 : -1) * font * 0.34;
+      const id = `rd-dial-week-${Number(M.year)}-${Number(M.month)}-${i + 1}`;
+      const guide = bottom ? arc(end, start, baseline) : arc(start, end, baseline);
+
+      return `
+        <path d="${arc(start + gap, end - gap, radius)}" fill="none"
+          stroke="${primary ? "var(--rd-primary)" : "var(--rd-secondary)"}"
+          stroke-width="42" stroke-linecap="round"/>
+        <defs><path id="${id}" d="${guide}"/></defs>
+        <text class="week" style="font-size:${font}px"
+          fill="${primary ? "var(--rd-primary-ink)" : "var(--rd-ink)"}"
+          text-anchor="middle"><textPath href="#${id}" xlink:href="#${id}" startOffset="50%">${esc(label)}</textPath></text>`;
+    }).join("");
+
+    // 키워드 글자 크기는 모든 칸에서 같게 (2026-11-14 사용자 요청으로 본체에서 수정).
+    // 칸 위치와 키워드 길이에 상관없이 KW_FONT로 고정하고, 잘릴 때도 최소 두 글자 + "…"가 보이게 한다.
+    const KW_FONT = 21, KW_PAD = 12, ELL = 0.6;
+    const units = c => {
+      if (c === "…") return ELL;
+      if (/^\s$/u.test(c)) return 0.35;
+      if (/^[ilI.,!'|]$/u.test(c)) return 0.34;
+      if (/^[A-Za-z0-9]$/u.test(c)) return 0.66;
+      return 1;
+    };
+
+    const petalLayer = [];
+    const labelLayer = [];
+    let recordIndex = 0;
+
+    for (const [i, day] of M.days.entries()) {
+      const angle = i * step;
+      const left = angle - step / 2;
+      const right = angle + step / 2;
+      const bend = step * 0.24;
+      const path = `M${xy(left, 174)} L${xy(left, 445)}
+        Q${xy(left, 474)} ${xy(left + bend, 474)}
+        A474 474 0 0 1 ${xy(right - bend, 474)}
+        Q${xy(right, 474)} ${xy(right, 445)} L${xy(right, 174)} Z`;
+
+      const [x, y] = point(angle, 431);
+      const [kx, ky] = point(angle, 332);
+      const weekend = day.weekday === 6 || day.weekday === 0;
+      const selectedInk = day.selected ? "var(--rd-selected-ink)" : "var(--rd-ink)";
+
+      // coral은 선택된 토·일에도 날짜와 요일의 코랄색을 유지한다.
+      const dateInk = weekend && (coral || !day.selected)
+        ? "var(--rd-weekend)" : selectedInk;
+      const storyInk = coral ? selectedInk : dateInk;
+      const todayInk = day.selected ? "var(--rd-selected-ink)"
+        : coral ? (mode === "dark" ? "#A5C5EB" : "var(--rd-primary)") : "var(--rd-weekend)";
+
+      const keyword = day.keyword || "";
+      const chars = M.chars(keyword);
+      const chord = 2 * 332 * Math.sin(step / 2);
+      const room = chord * Math.abs(Math.sin(angle)) >= 59
+        ? 112
+        : Math.min(112, (chord - 4) * Math.abs(Math.cos(angle)) + 2);
+      const maxWidth = Math.max((2 + ELL) * KW_FONT + KW_PAD, room);   // 최소 두 글자 + …
+      const font = KW_FONT;
+      const budget = (maxWidth - KW_PAD) / font;
+      let width = chars.reduce((sum, c) => sum + units(c), 0);
+      let shown = keyword;
+      const cut = width > budget + 0.00001;
+
+      if (cut) {
+        shown = "";
+        width = ELL;
+        let count = 0;
+        for (const c of chars) {
+          if (count >= 2 && width + units(c) > budget + 0.00001) break;
+          shown += c;
+          width += units(c);
+          if (!/^\s$/u.test(c)) count++;              // 띄어쓰기는 글자 수에 넣지 않음
+        }
+        const trimmed = shown.replace(/\s+$/u, "");     // "…" 앞의 띄어쓰기는 지움
+        width -= (shown.length - trimmed.length) * units(" ");
+        shown = trimmed + "…";
+      }
+
+      const attrs = [
+        day.canOpen ? `data-day="${esc(day.key)}"` : "",
+        cut ? 'data-cut="1"' : ""
+      ].filter(Boolean).join(" ");
+
+      petalLayer.push(`<path ${attrs} d="${path}"
+        fill="${day.selected ? "var(--rd-selected)" : "var(--rd-petal)"}"
+        stroke="var(--rd-line)" stroke-width="2" stroke-linejoin="round"/>`);
+
+      let tag = "";
+      if (chars.length) {
+        // 기록이 있는 날만 세므로 빈 날짜가 끼어도 알약 색은 교차한다.
+        const useB = recordIndex++ % 2 === 1;
+        const useSelectedPill = day.selected && !coral;
+        const pill = useSelectedPill ? "var(--rd-selected-pill)"
+          : useB ? "var(--rd-pill-b)" : "var(--rd-pill-a)";
+        const ink = useB && !useSelectedPill ? "var(--rd-pill-b-ink)" : "var(--rd-pill-a-ink)";
+        const spark = day.selected ? "var(--rd-selected-ink)"
+          : useB ? "var(--rd-spark)" : "var(--rd-spark-a)";
+        const w = Math.max(38, width * font + KW_PAD);
+
+        // 선택 조각과 알약이 모두 미드나잇블루일 때만 코랄 테두리를 표시한다.
+        const outline = coral && day.selected && useB
+          ? ' stroke="var(--rd-pill-a)" stroke-width="2"' : "";
+
+        tag = `
+          <rect x="${kx - w / 2}" y="${ky - 20}" width="${w}" height="40" rx="20" fill="${pill}"${outline}/>
+          <path transform="translate(${kx} ${ky - 29})" d="M-9 0 l-4 -7 M0 -2 v-9 M9 0 l4 -7"
+            fill="none" stroke="${spark}" stroke-width="2.7" stroke-linecap="round"/>
+          <text class="tag" x="${kx}" y="${ky + font * 0.33}" fill="${ink}"
+            style="font-size:${font}px">${esc(shown)}</text>`;
+      }
+
+      labelLayer.push(`<g ${attrs} opacity="${day.future && !day.selected ? 0.6 : 1}">
+        <text class="date" x="${x}" y="${y + 4}" fill="${dateInk}">${esc(day.d)}</text>
+        ${day.hasStory ? `<circle cx="${x + (day.d < 10 ? 15 : 25)}" cy="${y - 17}" r="3.2" fill="${storyInk}"/>` : ""}
+        <text class="weekday" x="${x}" y="${y + 35}" fill="${dateInk}">${esc(day.weekdayKo)}</text>
+        ${day.today ? `<path d="M${x - 8} ${y + 42} h16" fill="none"
+          stroke="${todayInk}" stroke-width="3" stroke-linecap="round"/>` : ""}
+        ${tag}
+      </g>`);
+    }
+
+    const half = Math.PI / 12;
+    let flower = `M${xy(-half, 183)}`;
+    for (let i = 0; i < 12; i++) {
+      const a = i * 2 * half;
+      flower += ` C${xy(a - half * 0.58, 208)} ${xy(a + half * 0.58, 208)} ${xy(a + half, 183)}`;
+    }
+
+    return `<div class="rd-dial" data-dial-palette="${esc(palette)}" data-dial-mode="${mode}">
+      <svg viewBox="0 0 1086 1060" xmlns="http://www.w3.org/2000/svg"
+        xmlns:xlink="http://www.w3.org/1999/xlink" aria-label="${esc(M.year)}년 ${esc(M.month)}월 달력">
+        ${bands}
+        ${petalLayer.join("")}
+        ${labelLayer.join("")}
+        <path d="${flower} Z" fill="var(--rd-petal)" stroke="var(--rd-line)" stroke-width="4"/>
+        <g fill="var(--rd-sprout)" transform="translate(543 443)">
+          <path d="M0 2 Q-24 3 -30 -22 Q-6 -26 1 -3 Q6 -27 33 -29 Q30 -3 4 1 Z"/>
+          <path d="M2 -3 Q0 7 0 19" fill="none" stroke="var(--rd-sprout)" stroke-width="4" stroke-linecap="round"/>
+        </g>
+        <text class="month" x="543" y="554">${esc(M.monthEn)}</text>
+        <rect x="443" y="582" width="200" height="46" rx="23" fill="var(--rd-primary)"/>
+        <text class="count" x="545" y="614" fill="var(--rd-primary-ink)">${esc(n)} DAYS</text>
+        <path d="M515 653 l-8 12 M540 654 l1 13 M564 653 l7 12"
+          fill="none" stroke="var(--rd-line)" stroke-width="4.6" stroke-linecap="round"/>
+      </svg>
+    </div>`;
+  }
+};
+window.RECORDY_MODULES=window.RECORDY_MODULES||{};
+
+</script>
+<script>
+(function(){
+  const dpr = window.devicePixelRatio || 1;
+  function draw(c, bg, fg){
+    const w = 200, h = 112;
+    c.width = w * dpr; c.height = h * dpr;
+    const x = c.getContext("2d"); x.scale(dpr, dpr);
+    x.fillStyle = bg; x.beginPath();
+    if (x.roundRect) x.roundRect(0, 0, w, h, 16); else x.rect(0, 0, w, h);
+    x.fill();
+    x.fillStyle = fg; x.font = '800 30px -apple-system, "Apple SD Gothic Neo", "Malgun Gothic", sans-serif';
+    x.textAlign = "center"; x.textBaseline = "middle"; x.fillText("가나다", w / 2, h / 2 + 1);
+  }
+  const swSvg = (bg, fg) => `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 56"><rect width="100" height="56" rx="8" fill="${bg}"/><text x="50" y="35" text-anchor="middle" font-size="15" font-weight="800" font-family="sans-serif" fill="${fg}">가나다</text></svg>`;
+  const svgUrl = s => "data:image/svg+xml;charset=utf-8," + encodeURIComponent(s);
+  function svgToCanvas(svgText, c, w, h){
+    const img = new Image();
+    img.onload = () => {
+      c.width = Math.round(w * dpr); c.height = Math.round(h * dpr);
+      const x = c.getContext("2d"); x.drawImage(img, 0, 0, c.width, c.height);
+    };
+    img.src = svgUrl(svgText);
+  }
+
+  document.querySelectorAll("canvas[data-bg]").forEach(c => {
+    if (c.dataset.svg2c) svgToCanvas(swSvg(c.dataset.bg, c.dataset.fg), c, 200, 112);
+    else draw(c, c.dataset.bg, c.dataset.fg);
+  });
+  document.querySelectorAll("img[data-bg]").forEach(img => {
+    if (img.dataset.svg) img.src = svgUrl(swSvg(img.dataset.bg, img.dataset.fg));
+    else { const c = document.createElement("canvas"); draw(c, img.dataset.bg, img.dataset.fg); img.src = c.toDataURL("image/png"); }
+  });
+
+  /* ---- 실제 다이얼 ---- */
+  const KO = ["일","월","화","수","목","금","토"], MON = ["JAN","FEB","MAR","APR","MAY","JUN","JUL","AUG","SEP","OCT","NOV","DEC"];
+  const pad = n => String(n).padStart(2, "0");
+  const esc = s => String(s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+  const seg = (typeof Intl !== "undefined" && Intl.Segmenter) ? new Intl.Segmenter("ko", {granularity: "grapheme"}) : null;
+  const chars = s => seg ? [...seg.segment(String(s))].map(x => x.segment) : Array.from(String(s));
+  const REC = {1:["산책"],3:["독서",1],5:["영화"],8:["커피"],11:["휴식",1],14:["여행",1],17:["친구"],19:["작업"],24:["휴식"],26:["커피",1]};
+  function model(dark){
+    const y = 2027, m = 2, today = "2027-03-01", sel = "2027-02-14", n = 28, days = [];
+    for (let d = 1; d <= n; d++){
+      const key = `${y}-${pad(m)}-${pad(d)}`, wd = new Date(y, m - 1, d).getDay(), r = REC[d];
+      days.push({key, d, weekday: wd, weekdayKo: KO[wd], keyword: r ? r[0] : null, hasStory: !!(r && r[1]), selected: key === sel, today: key === today, future: key > today, canOpen: true});
+    }
+    const weeks = []; days.forEach(o => { if (!weeks.length || o.weekday === 1) weeks.push({no: weeks.length + 1, from: o.d, to: o.d}); else weeks[weeks.length - 1].to = o.d; });
+    return {year: y, month: m, monthEn: MON[m - 1], daysInMonth: n, days, weeks, esc, chars, palette: "v02", dark};
+  }
+  const L = window.RecordyLayout;
+  const st = document.createElement("style"); st.textContent = L.css; document.head.appendChild(st);
+  const box = document.getElementById("dialSvg"), boxDark = document.getElementById("dialDark");
+  box.innerHTML = L.render(model(false));
+  boxDark.innerHTML = L.render(model(true));
+
+  const PROPS = ["fill","fill-opacity","stroke","stroke-width","stroke-opacity","stroke-linecap","stroke-linejoin","stroke-dasharray","opacity","font-family","font-size","font-weight","font-style","letter-spacing","text-anchor","dominant-baseline","display","visibility"];
+  function dialToCanvas(){
+    const src = box.querySelector("svg"); if (!src) return;
+    const clone = src.cloneNode(true);
+    const a = [src, ...src.querySelectorAll("*")], b = [clone, ...clone.querySelectorAll("*")];
+    a.forEach((el, i) => {
+      const cs = getComputedStyle(el);
+      b[i].setAttribute("style", PROPS.map(p => `${p}:${cs.getPropertyValue(p)}`).join(";"));
+      b[i].removeAttribute("class");
+    });
+    const bg = getComputedStyle(src.closest(".rd-dial")).backgroundColor;
+    const vb = src.viewBox.baseVal, w = box.clientWidth, h = w * vb.height / vb.width;
+    clone.setAttribute("xmlns", "http://www.w3.org/2000/svg");
+    clone.setAttribute("width", vb.width); clone.setAttribute("height", vb.height);
+    clone.insertAdjacentHTML("afterbegin", `<rect x="${vb.x}" y="${vb.y}" width="${vb.width}" height="${vb.height}" fill="${bg}"/>`);
+    const c = document.getElementById("dialCanvas"); c.style.height = h + "px";
+    svgToCanvas(new XMLSerializer().serializeToString(clone), c, w, h);
+  }
+  dialToCanvas();
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(dialToCanvas);
+
+  /* ---- 정보 ---- */
+  const mq = q => (window.matchMedia ? window.matchMedia(q).matches : "?");
+  const ua = navigator.userAgent;
+  const sam = (ua.match(/SamsungBrowser\/([\d.]+)/) || [])[1];
+  document.getElementById("info").innerHTML =
+    "페이지: <b>B</b> · 선언: 밝은 화면만 (only light)<br>" +
+    "브라우저: " + (sam ? "삼성 인터넷 " + sam : (/iPhone|iPad/.test(ua) ? "iOS" : "기타")) + "<br>" +
+    "다크 모드 신호(prefers-color-scheme: dark): <b>" + mq("(prefers-color-scheme: dark)") + "</b><br>" +
+    "화면 너비: " + innerWidth + "px · 픽셀 배율: " + dpr + "<br>" +
+    "<span style='opacity:.7'>" + ua.replace(/</g, "&lt;") + "</span>";
+})();
+</script>
+</body>
+</html>
